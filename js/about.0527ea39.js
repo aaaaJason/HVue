@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkhospital"]=self["webpackChunkhospital"]||[]).push([[594],{7992:function(t,n,s){s.r(n),s.d(n,{default:function(){return r}});var u=function(){var t=this;t._self._c;return t._m(0)},a=[function(){var t=this,n=t._self._c;return n("div",{staticClass:"about"},[n("h1",[t._v("This is an about page")])])}],l=s(1656),e={},i=(0,l.A)(e,u,a,!1,null,null,null),r=i.exports}}]);
+//# sourceMappingURL=about.0527ea39.js.map
