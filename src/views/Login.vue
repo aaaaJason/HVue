@@ -66,11 +66,11 @@ export default {
             window.location.reload();
           }
         } else {
-          this.error = data.error || '登录失败，用户名或密码错误';
+          this.error = data.error || '登入失敗，帳號或密碼錯誤';
         }
       } catch (error) {
         console.error('Error:', error);
-        this.error = '无法连接到服务器，请稍后再试';
+        this.error = '無法連接到伺服器，請稍後再試';
       }
     }
   }
