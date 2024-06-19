@@ -199,7 +199,7 @@ export default {
 }
 .table-cell-V{
   font-size: 20px;
-  font-weight: bold; /* 设置文字大小 */
+  font-weight: bold; 
   color: rgb(53, 167, 30)
 }
 </style>

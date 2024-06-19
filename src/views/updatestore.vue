@@ -21,7 +21,7 @@
 
 <script>
 import axios from 'axios';
-import { logout } from '@/LoginUser';
+
 
 export default {
   data() {
@@ -47,7 +47,7 @@ export default {
 
         if (response.data.success) {
           window.alert('密碼更新成功');
-          this.handleLogout();
+          window.location.href = '/';//登出
         } else {
           window.alert(`更新失敗: ${response.data.message}`);
         }
@@ -59,10 +59,6 @@ export default {
           window.alert('更新密碼失敗，請稍後再試');
         }
       }
-    },
-    handleLogout() {
-      logout(); // 清除用戶信息
-      window.location.href = '/'; // 導航到登錄頁面
     },
   },
 };
