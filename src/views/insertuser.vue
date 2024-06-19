@@ -11,6 +11,10 @@
         <input type="password" id="password" v-model="password" required>
       </div>
       <div class="form-group">
+        <label for="Checkpassword">確認密碼</label>
+        <input type="password" id="Checkpassword" v-model="Checkpassword" required>
+      </div>
+      <div class="form-group">
         <label for="username">使用者名稱</label>
         <input type="text" id="username" v-model="username" required>
       </div>
@@ -27,27 +31,32 @@ export default {
     return {
       account: '',
       password: '',
+      Checkpassword:'',
       username: ''
     };
   },
   methods: {
     async handleSubmit() {
-      try {
-        const response = await axios.post('https://192.168.1.150:443/insertuser', {
-          Account: this.account,
-          Password: this.password,
-          Username: this.username
-        });
+      if(this.password==this.Checkpassword){
+        try {
+          const response = await axios.post('https://192.168.1.150:443/insertuser', {
+            Account: this.account,
+            Password: this.password,
+            Username: this.username
+          });
 
-        if (response.data.message === '使用者新增成功') {
-          alert('使用者新增成功');
-          window.location.reload();
-        } else {
-          alert(response.data.message);
+          if (response.data.message === '使用者新增成功') {
+            alert('使用者新增成功');
+            window.location.reload();
+          } else {
+            alert(response.data.message);
+          }
+        } catch (error) {
+          console.error('新增使用者時發生錯誤:', error);
+          alert('新增使用者失敗，請稍後再試');
         }
-      } catch (error) {
-        console.error('新增使用者時發生錯誤:', error);
-        alert('新增使用者失敗，請稍後再試');
+      }else{
+        alert('確認密碼與密碼需相同');
       }
     }
   }

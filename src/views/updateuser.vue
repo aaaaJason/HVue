@@ -7,6 +7,10 @@
         <input type="text" id="account" v-model="account" required>
       </div>
       <div class="form-group">
+        <label for="oldPassword">舊密碼</label>
+        <input type="password" id="oldPassword" v-model="oldPassword" required>
+      </div>
+      <div class="form-group">
         <label for="newPassword">新密碼</label>
         <input type="password" id="newPassword" v-model="newPassword" required>
       </div>
@@ -27,6 +31,7 @@ export default {
     return {
       account: '',
       newPassword: '',
+      oldPassword:'',
       confirmPassword: '',
       passwordsMatch: null
     };
@@ -42,6 +47,7 @@ export default {
       try {
         const response = await axios.put('https://192.168.1.150:443/updateuser', {
           Account: this.account,
+          oldPassword:this.oldPassword,
           NewPassword: this.newPassword
         });
 
@@ -53,8 +59,6 @@ export default {
         }
       } catch (error) {
         if (error.response && error.response.status === 500) {
-          alert('更新失敗: 未找到對應的用戶');
-        } else {
           console.error('更新密碼時出錯:', error);
           alert('更新密碼失敗，請稍後再試');
         }

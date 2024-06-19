@@ -20,6 +20,7 @@
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button type="success" @click="handleEdit(scope.row)">編輯</el-button>
+        <el-button type="warning" @click="PasswordEdit(scope.row)">更改商家密碼</el-button>
         <el-button type="primary" @click="handleViewMembers(scope.row)">查看商家會員</el-button>
       </template>
     </el-table-column>
@@ -61,6 +62,27 @@
       </div>
     </el-dialog>
 
+     <!-- 更改商家密碼對話框 -->
+     <el-dialog title="更改商家密碼" :visible.sync="PassdialogVisible">
+      <el-form ref="editForm" :model="editForm">
+        <el-form-item label="商家帳號" >
+          <el-input v-model="editForm.MAccount" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item  label="舊密碼">
+          <el-input v-model="editForm.oldPassword" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="新密碼">
+          <el-input v-model="editForm.newPassword" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="確認新密碼">
+          <el-input v-model="editForm.checkPassword" type="password"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="PassdialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="savePass">送出</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -72,11 +94,15 @@ export default {
     return {
       tableData: [], // 用於存儲 API 返回的數據
       dialogVisible: false,
+      PassdialogVisible: false,
       editForm: {
         Mname: '',
         MAccount: '',
         Discount: '',
         Voucher: '',
+        oldPassword:'',
+        newPassword:'',
+        checkPassword:''
       },
       errorCount:'',
       originalVoucher: 0,
@@ -128,12 +154,8 @@ export default {
           window.alert(`更新失敗: ${response.data.message}`);
         }
       } catch (error) {
-        if (error.response && error.response.status === 500) {
-          window.alert('更新失敗: 未找到對應的商家');
-        } else {
-          console.error('更新出錯:', error);
-          window.alert('更新失敗 請稍後再試');
-        }
+        console.error(`更新失敗: ${error.response.data.message}`);
+        window.alert(`更新失敗: ${error.response.data.message}`);
       }
     },
     handleEdit(row) {
@@ -141,6 +163,11 @@ export default {
       this.dialogVisible = true;
       this.editForm = { ...row }; // 使用對象展開運算符複製行數據到編輯表單中
       this.originalVoucher = row.Voucher;
+    },
+    PasswordEdit(row) {
+      // 打開編輯對話框，並將行數據填充到編輯表單中
+      this.PassdialogVisible = true;
+      this.editForm = { ...row }; // 使用對象展開運算符複製行數據到編輯表單中
     },
     handleViewMembers(row) {
       // 使用路由导航到 /storedata 并将商家数据作为参数传递
@@ -182,7 +209,34 @@ export default {
     },
     formatDiscount(row, column, cellValue) {
       return cellValue === 24 ? '折抵整天' : `${cellValue} 小時`;
+    },
+    async savePass() {
+      if(this.editForm.MAccount&&this.editForm.oldPassword&&this.editForm.newPassword&&this.editForm.checkPassword){
+      if (this.editForm.newPassword!=this.editForm.checkPassword) {
+        window.alert('兩次密碼輸入不同');
+        return;
+      }
+      try {
+        const response = await axios.put('https://192.168.1.150:443/updatestore', {
+          MAccount: this.editForm.MAccount,
+          oldPassword:this.editForm.oldPassword,
+          MPassword: this.editForm.newPassword,
+        });
+
+        if (response.data.success) {
+          window.alert('密碼更新成功');
+          this.PassdialogVisible = false;
+        } else {
+          window.alert(`更新失敗: ${response.data.message}`);
+        }
+      } catch (error) {
+          window.alert(`更新失敗: ${error.response.data.message}`);
+
+      }
+    }else{
+      window.alert('請輸入完整資料');
     }
+  },
     
   },
 };

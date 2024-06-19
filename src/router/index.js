@@ -3,10 +3,7 @@ import VueRouter from 'vue-router'
 import Cookies from 'js-cookie'
 import HomeView from '../views/HomeView.vue'
 import Login from '../views/Login.vue';
-import useredit from '../views/useredit.vue';
-import storeedit from '../views/storeedit.vue';
 import insertstore from '../views/insertstore.vue';
-import updatestore from '../views/updatestore.vue';
 import insertuser from '../views/insertuser.vue';
 import updateuser from '../views/updateuser.vue';
 import storedata from '../views/storedata.vue';
@@ -29,28 +26,9 @@ const routes = [
     meta: { clearCookies: true }
   },
   {
-    path: '/useredit',
-    name: 'useredit',
-    component: useredit,
-    meta: { requireAuth: true }
-  },
-  {
-    path: '/storeedit',
-    name: 'storeedit',
-    component: storeedit,
-    meta: { requireAuth: true }
-  }
-  ,
-  {
     path: '/insertstore',
     name: 'insertstore',
     component: insertstore,
-    meta: { requireAuth: true }
-  },
-  {
-    path: '/updatestore',
-    name: 'updatestore',
-    component: updatestore,
     meta: { requireAuth: true }
   },
   {

@@ -49,14 +49,13 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider></v-divider>
       <!-- 商家頁面 -->
-      <v-list-item v-on:click="goTo('/storeedit')">
+      <v-list-item v-on:click="goTo('/insertstore')">
         <v-list-item-icon>
           <v-icon>mdi-storefront-outline</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>商家管理</v-list-item-title>
+          <v-list-item-title>新增商家</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
