@@ -72,7 +72,7 @@ export default {
 
       try {
         // 發送POST請求到後端
-        const response = await fetch('http://192.168.1.150:443/insertstore', {
+        const response = await fetch('https://192.168.1.150:443/insertstore', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
