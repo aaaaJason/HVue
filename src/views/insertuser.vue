@@ -39,7 +39,7 @@ export default {
     async handleSubmit() {
       if(this.password==this.Checkpassword){
         try {
-          const response = await axios.post('https://192.168.1.150:443/insertuser', {
+          const response = await axios.post('http://192.168.1.150:443/insertuser', {
             Account: this.account,
             Password: this.password,
             Username: this.username
