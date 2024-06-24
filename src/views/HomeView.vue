@@ -35,7 +35,7 @@
         <el-form-item label="商家帳號">
           <el-input v-model="editForm.MAccount" :disabled="true"></el-input>
         </el-form-item>
-      <el-form-item label="折抵方式(小時)">
+      <!-- <el-form-item label="折抵方式(小時)">
         <el-input-number 
           v-model.number="editForm.Discount" 
           :min="1" 
@@ -45,8 +45,8 @@
         />
         <br>
         <span  style="color: blueviolet;">折抵方式必須在 1 到 24 之間</span>
-        </el-form-item>
-        <el-form-item label="折抵券張數">
+        </el-form-item> -->
+        <el-form-item label="折抵券張數設定">
           <el-input-number  v-model.number="editForm.Voucher"  
           :step="1" 
           :controls="true"
@@ -142,7 +142,6 @@ export default {
       try {
         const response = await axios.put('https://192.168.1.150:443/updatestore', {
           MAccount: this.editForm.MAccount,
-          Discount: this.editForm.Discount,
           Voucher: this.editForm.Voucher
         });
 
@@ -183,7 +182,7 @@ export default {
       });
     },
     saveEdit() {
-      if (this.editForm.Discount < 1 || this.editForm.Discount > 24||this.editForm.Voucher < this.originalVoucher) {
+      if (this.editForm.Voucher < this.originalVoucher) {
         window.alert('請確定資料輸入無誤');
         return;
       }
@@ -193,13 +192,13 @@ export default {
         this.saveAPI()
       
     },
-    validateDiscount(value) {
-      if (value < 1) {
-        this.editForm.Discount = 1;
-      } else if (value > 24) {
-        this.editForm.Discount = 24;
-      }
-    },
+    // validateDiscount(value) {
+    //   if (value < 1) {
+    //     this.editForm.Discount = 1;
+    //   } else if (value > 24) {
+    //     this.editForm.Discount = 24;
+    //   }
+    // },
     validateVoucher(value) {
       if (value < this.originalVoucher) {
         this.errorCount = '折抵券不可比原數量少。原張數：'+this.originalVoucher;
@@ -208,7 +207,7 @@ export default {
       }
     },
     formatDiscount(row, column, cellValue) {
-      return cellValue === 24 ? '折抵整天' : `${cellValue} 小時`;
+      return cellValue === 24 ? '每張折抵整天' : `每張折抵${cellValue} 小時`;
     },
     async savePass() {
       if(this.editForm.MAccount&&this.editForm.oldPassword&&this.editForm.newPassword&&this.editForm.checkPassword){
@@ -223,7 +222,7 @@ export default {
           MPassword: this.editForm.newPassword,
         });
 
-        if (response.data.success) {
+        if (response.data) {
           window.alert('密碼更新成功');
           this.PassdialogVisible = false;
         } else {

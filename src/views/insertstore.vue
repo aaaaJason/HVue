@@ -16,17 +16,19 @@
         <span v-if="passwordsMatch === false" class="alert">確認密碼不一致</span>
       </div>
       <div class="form-group">
-        <label for="discount">折抵方式(小時)</label>
-        <input type="number" id="discount" v-model.number="discount" required>
-        <span class="note">24: 當日全天，1~23: 小時折抵</span>
-       
-      </div>
-      <div class="form-group">
         <label for="voucher">折抵卷張數</label>
         <input type="number" id="voucher" v-model.number="voucher" required>
         <span v-if="voucher < 0" class="alert">折抵卷張數不能為負數</span>
       </div>
-      <button type="submit" :disabled=" (discount < 1 ||discount>24) || voucher < 0" >確認</button>
+      <v-container>
+        <label>設定折抵券時數</label>
+        <v-select v-if="!isAllDay" v-model="discount" :items="hours" item-text="text" item-value="value" label="選擇每張折抵時數">
+        </v-select>
+        <v-checkbox v-model="isAllDay" @change="resetDiscount" label="每張整天折抵"></v-checkbox>
+      </v-container>
+
+      
+      <button type="submit" :disabled=" !discount||voucher < 0" >確認</button>
     </form>
    
   </div>
@@ -43,10 +45,24 @@ export default {
       voucher: null,
       passwordsMatch: true,
       registrationSuccess: false,
-      userData: null
+      userData: null,
+      isAllDay: false,  // 是否选择全天折抵
+      hours: Array.from({ length: 23 }, (v, k) => ({
+        text: `折抵${k + 1}小時`,
+        value: k + 1
+      }))
     };
   },
   methods: {
+    resetDiscount() {
+      if (this.isAllDay) {
+        // 如果选择了全天折抵，将值设置为 24
+        this.discount = 24;
+      } else {
+        // 如果未选择全天折抵，重置折抵值
+        this.discount = null;
+      }
+    },
     async handleSubmit() {
       // 檢查密碼是否一致
       if (this.mpassword !== this.confirmPassword) {
@@ -55,7 +71,7 @@ export default {
       }
 
       // 檢查折抵方式和折抵卷張數是否合法
-      if ((this.discount < 0||this.discount>23) || this.voucher < 0) {
+      if ( this.voucher < 0) {
         return;
       }
 
@@ -154,4 +170,31 @@ button:disabled {
   color: red;
   font-size: 0.8em;
 }
+.form-group {
+  margin-bottom: 1em;
+}
+/* 自定义复选框标签的样式 */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+/* 自定义复选框文字的样式 */
+.checkbox-label {
+  font-size: 1.5em;  /* 设置“整天折抵”的文字大小 */
+  margin-left: 0.5em;
+}
+
+/* 自定义下拉框的样式 */
+.select-style {
+  width: 200px;  /* 设置下拉框的宽度 */
+  padding: 5px;  /* 设置内边距 */
+  border-radius: 5px;  /* 设置边框圆角 */
+  border: 1px solid #ccc;  /* 设置边框样式 */
+  background-color: #f8f8f8;  /* 设置背景颜色 */
+  color: #333;  /* 设置文字颜色 */
+  font-size: 1em;  /* 设置文字大小 */
+}
+
 </style>
