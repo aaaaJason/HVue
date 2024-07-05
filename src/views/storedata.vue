@@ -51,7 +51,7 @@ export default {
     async fetchMembers() {
       try {
           console.log(this.Sid);
-          const response = await axios.post('https://192.168.1.150:443/storedata', {
+          const response = await axios.post('http://192.168.1.150:2224/storedata', {
               SId: this.Sid,
               table:'MerMembers'
               

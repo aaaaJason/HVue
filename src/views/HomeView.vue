@@ -122,7 +122,7 @@ export default {
   methods: {
     async fetchTableData() {
       try {
-        const response = await fetch('https://192.168.1.150:443/maindata', {
+        const response = await fetch('http://192.168.1.150:2224/maindata', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export default {
     },
     async saveAPI() {
       try {
-        const response = await axios.put('https://192.168.1.150:443/updatestore', {
+        const response = await axios.put('http://192.168.1.150:2224/updatestore', {
           MAccount: this.editForm.MAccount,
           Voucher: this.editForm.Voucher
         });
@@ -216,7 +216,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.put('https://192.168.1.150:443/updatestore', {
+        const response = await axios.put('http://192.168.1.150:2224/updatestore', {
           MAccount: this.editForm.MAccount,
           oldPassword:this.editForm.oldPassword,
           MPassword: this.editForm.newPassword,
