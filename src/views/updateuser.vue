@@ -45,7 +45,7 @@ export default {
       }
 
       try {
-        const response = await axios.put('http://192.168.1.150:2224/updateuser', {
+        const response = await axios.put('http://192.168.1.150:2226/updateuser', {
           Account: this.account,
           oldPassword:this.oldPassword,
           NewPassword: this.newPassword
